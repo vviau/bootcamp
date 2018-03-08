@@ -1,0 +1,438 @@
+<div ng-controller="angularjsCtrl" ng-cloak>
+
+	<style>
+		.row-border{
+			border-top: thin solid #ccc;
+			margin-left: 5px;
+			margin-right: 5px;
+		}
+		.well{
+			margin-top:10px;
+		}
+	</style>
+
+	<div class="row">
+		<div class="col-md-12" ng-init="options.changeColor=false">
+			<h3 style="margin-top:0px"> <i class="fa fa-modx" ng-if="!$root.isLoading"></i>
+				<i class="fa fa-cog fa-spin" ng-if="$root.isLoading"></i> <span>AngularJS main directices</span>	</h3>
+				<p>This is a template showcasing the main AngularJS directives. AngularJS is a structural framework for dynamic web apps. More information on the <a href="https://docs.angularjs.org/guide/introduction">AngularJS website</a></p>
+		</div>
+	</div>
+	
+
+	<!-- LISTS -->
+	<tm1-ui-element-list
+	   tm1-instance="dev"
+	   tm1-dimension="Period"
+	   tm1-subset="Default"
+	   ng-model="lists.periods"
+	   >
+	</tm1-ui-element-list>
+	<tm1-ui-element-list
+	   tm1-instance="dev"
+	   tm1-dimension="Account"
+	   tm1-subset="Finance Analytics"
+	   tm1-calculate-top-level="true"
+	   ng-model="lists.accounts"
+	   >
+	</tm1-ui-element-list>
+
+	<!-- ng-model / tm1-change -->
+	<div class="row row-border">
+		<div class="col-md-12">
+			<h3> ng-model, ng-change</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="well" style="margin-bottom:0px;">
+				<div class="row">
+					<div class="col-md-12">
+						<p>	Binds the value of HTML controls to application data.</p>
+						<div hljs>ng-model="selections.Year"</div>
+						<p>Trigger an action when value changed (SUBNM).</p>
+						<div hljs>tm1-change="setYear(selections.Year)"</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="col-md-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title text-center">ng-model</h3>
+					</div>
+					<div class="panel-body text-center">
+						<input type="text" class="form-control" ng-model="values.nameModel">
+						<h3>{{values.nameModel}}</h3>
+					</div>
+					<div class="panel-footer">
+						<span>Show the value stored using ng-model.</span>
+						<div hljs><input type="text" class="form-control" ng-model="values.nameModel"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title text-center">ng-model-options</h3>
+					</div>
+					<div class="panel-body text-center">
+						<input type="text" class="form-control" ng-model="values.name" ng-model-options="{updateOn: 'blur'}">
+						<h3>{{values.name}}</h3>
+					</div>
+					<div class="panel-footer">
+						<span>The value will wait with the binding until the field loses focus:</span>
+						<div hljs><input type="text" class="form-control" ng-model="values.name" ng-model-options="{updateOn: 'blur'}"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title text-center">tm1-change instead of ng-change</h3>
+					</div>
+					<div class="panel-body text-center">
+						<tm1-ui-subnm tm1-select-only="true" tm1-instance="dev" tm1-dimension="Year" tm1-subset="All Years" ng-model="selections.Year"
+						tm1-default-element="2012"
+						tm1-change="setYear(selections.Year)"></tm1-ui-subnm>
+					</div>
+					<div class="panel-footer">
+						<span>Input to update the value</span>
+						<div hljs><tm1-ui-subnm tm1-select-only="true" tm1-instance="dev" tm1-dimension="Year" tm1-subset="All Years" ng-model="selections.Year"
+							tm1-default-element="2012"
+							tm1-change="setYear(selections.Year)"></tm1-ui-subnm></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<!-- ng-click focus, blur -->
+	<div class="row row-border">
+		<div class="col-md-12">
+			<h3> Trigger an action</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="well" style="margin-bottom:0px;">
+				<div class="row">
+					<div class="col-md-12">
+						<p>Execute a function when the value of the input field changes.</p>
+						<div hljs>ng-change="countChange = countChange + 1"</div>
+						<p>	Specifies an expression to evaluate when an element is being clicked.</p>
+						<div hljs>ng-click="countClick = countClick + 1"</div>
+						<p>Specifies a behavior on focus events.</p>
+						<div hljs>ng-focus="countFocus = countFocus + 1"</div>
+						<p>Specifies a behavior on blur events.</p>
+						<div hljs>ng-blur="countFocus = countFocus + 1"</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="col-md-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title text-center">ng-change</h3>
+					</div>
+					<div class="panel-body text-center">
+						<input type="text" class="form-control" ng-change="countChange = countChange + 1" ng-init="countChange=0" ng-model="myValue" />
+						<h1>{{countChange}}</h1>
+					</div>
+					<div class="panel-footer">
+						<span>Value increases when input a string</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title text-center">ng-click</h3>
+					</div>
+					<div class="panel-body text-center">
+						<button type="button" class="btn btn-primary" ng-click="countClick = countClick + 1" ng-init="countClick=0">Click</button>
+						<h1>{{countClick}}</h1>
+					</div>
+					<div class="panel-footer">
+						<span>Value increases when clicking on the button</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title text-center">ng-focus</h3>
+					</div>
+					<div class="panel-body text-center">
+						<input type="text" class="form-control" ng-focus="countFocus = countFocus + 1" ng-init="countFocus=0" />
+						<h1>{{countFocus}}</h1>
+					</div>
+					<div class="panel-footer">
+						<span>Value increases when click inside the input</span>
+					</div>
+				</div>
+			</div>	
+			<div class="col-md-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title text-center">ng-blur</h3>
+					</div>
+					<div class="panel-body text-center">
+						<input type="text" class="form-control" ng-blur="countBlur = countBlur + 1" ng-init="countBlur=0" />
+						<h1>{{countBlur}}</h1>
+					</div>
+					<div class="panel-footer">
+						<span>Value increases when exit the input</span>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+	<!-- ng-show/hide -->
+	<div class="row row-border">
+		<div class="col-md-3">
+			<h3> Show / Hide Components</h3>
+		</div>
+		<div class="col-md-9 text-center" style="margin-top:15px">
+			<button type="button" class="btn btn-primary" ng-click="options.showCharts=!options.showCharts">
+				<span ng-hide="options.showCharts">Show Charts</span>
+				<span ng-hide="!options.showCharts">Hide Charts</span>
+			</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="well" style="margin-bottom:0px;">
+				<div class="row">
+					<div class="col-md-12">
+						<p>Defines initial values for an application.</p>
+						<div hljs>ng-init="options.showCharts=true"</div>
+						<p>Shows or hides HTML elements.</p>
+						<div hljs>ng-show="options.showCharts"</div>
+						<p>Hides or shows HTML elements.</p>
+						<div hljs>ng-hide="options.showCharts"</div>
+						<p>Removes the HTML element if a condition is false.</p>
+						<div hljs>ng-if="options.showCharts"</div>
+						<p>Includes HTML in an application.</p>
+						<div hljs>ng-include="options.pageLeftlocation"</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="col-md-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">ng-show="options.showCharts"</h3>
+					</div>
+					<div class="panel-body" ng-show="options.showCharts">
+						<div class="col-md-12" ng-include="options.pageLeftlocation"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<h3 class="panel-title">ng-if="options.showCharts"</h3>
+					</div>
+					<div class="panel-body" ng-if="options.showCharts">
+						<div class="col-md-12" ng-include="options.pageLeftlocation"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ng-repeat -->
+	<div class="row row-border">
+		<div class="col-md-12">
+			<h3> Repeat Components</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="well" style="margin-bottom:0px;">
+				<div class="row">
+					<div class="col-md-12">
+						<p>Defines a template for each data in a collection.</p>
+						<div hljs>ng-repeat="period in lists.periods"</div>
+						<p>Repeat multiple components:</p>
+						<div hljs>ng-repeat-start="account in lists.accounts"
+ng-repeat-end</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Table using ng-repeat, ng-repeat-start and ng-repeat-end</h3>
+				</div>
+				<div class="panel-body table-responsive">
+					<div class="col-md-12">
+						<table class="table table-striped">
+						<thead>
+						<tr>
+							<th class="text-center" ng-repeat="period in lists.periods"> {{period.alias}} </th>
+						</tr>
+						</thead>					
+						<tbody>
+						<tr ng-repeat-start="account in lists.accounts">
+							<td class="padding-left" colspan="13"> {{account.alias}} </td>
+						</tr>
+						<tr ng-repeat-end>
+							<td ng-repeat="period in lists.periods"> <tm1-ui-dbr
+								tm1-instance="dev"
+								tm1-cube="General Ledger"
+								tm1-elements='"Actual","{{selections.Year}}","{{period.alias}}","Local","England","Manufacturing",{{account.key}},"Amount"'
+								tm1-data-decimal="0"
+								>
+							</tm1-ui-dbr> </td>
+						</tr>
+						</tbody>					
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ng-class, style -->
+	<div class="row row-border">
+		<div class="col-md-12">
+			<h3> Update style</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="well" style="margin-bottom:0px;">
+				<div class="row">
+					<div class="col-md-12">
+						<p>Specifies CSS classes on HTML elements (One condition)</p>
+						<div hljs>ng-class="options.changeColor?'panel-danger':'panel-primary'"</div>
+						<p>Specifies CSS classes on HTML elements. (Two conditions)</p>
+						<div hljs>ng-class="{'table-bordered':options.tableOption1,'bg-primary':options.tableOption2}"</div>
+						<p>Specifies the style attribute for an element.</p>
+						<div hljs>ng-style="options.titleStyle"</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="col-md-4">
+				<div class="panel" ng-class="options.changeColor?'panel-danger':'panel-primary'">
+					<div class="panel-heading">
+						<h3 class="panel-title text-center">ng-class</h3>
+					</div>
+					<div class="panel-body text-center">
+						<button type="button" class="btn btn-primary" ng-click="options.changeColor=!options.changeColor">
+							<span>Change Class</span>
+						</button>
+					</div>
+					<div class="panel-footer">
+						<span>Click to change the class</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title text-center">ng-class with 2 classes</h3>
+					</div>
+					<div class="panel-body text-center table-responsive">
+						<div class="row">
+							<div class="col=md-12">
+								<button type="button" class="btn btn-primary" ng-init="options.tableOption1=true" ng-click="options.tableOption1=!options.tableOption1">
+									<span>Stripes</span>
+								</button>
+								<button type="button" class="btn btn-primary" ng-init="options.tableOption2=false" ng-click="options.tableOption2=!options.tableOption2">
+										<span>Background</span>
+								</button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<table class="table" ng-class="{'table-bordered':options.tableOption1,'bg-primary':options.tableOption2}">
+									<thead>
+										<tr>
+										<th>#</th>
+										<th>First Name</th>
+										<th>Last Name</th>
+										<th>Username</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+										<td>1</td>
+										<td>Mark</td>
+										<td>Otto</td>
+										<td>@mdo</td>
+										</tr>
+										<tr>
+										<td>2</td>
+										<td>Jacob</td>
+										<td>Thornton</td>
+										<td>@jt</td>
+										</tr>
+										<tr>
+										<td>3</td>
+										<td>Larry</td>
+										<td>the Bird</td>
+										<td>@ltb</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>				  
+					</div>
+					<div class="panel-footer">
+						<span>Change more than one class</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title text-center">ng-style</h3>
+					</div>
+					<div class="panel-body text-center">
+						<div class="row">
+							<button type="button" class="btn btn-primary" ng-click="setTitleStyle(options.changeStyle)">
+								<span>Change Style</span>
+							</button>
+						</div>
+						<div class="row">
+							<i class="fa fa-modx" ng-style="options.titleStyle"></i>
+						</div>
+					</div>
+					<div class="panel-footer">
+						<span>Click to update the CSS style</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ng-href -->
+	<div class="row row-border">
+		<div class="col-md-12">
+			<h3> Navigation and cloak</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="well" style="margin-bottom:0px;">
+				<div class="row">
+					<div class="col-md-12">
+						<p>Using AngularJS markup like {{hash}} in an href attribute will make the link go to the wrong URL if the user clicks it before AngularJS has a chance to replace the {{hash}} markup with its value.</p>
+						<div hljs>ng-href</div>
+						<p>The ngCloak directive is used to prevent the AngularJS html template from being briefly displayed.</p>
+						<div hljs>ng-cloak</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+	
+		</div>
+	</div>
+</div>

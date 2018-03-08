@@ -1,0 +1,161 @@
+<div ng-controller="globalvariablespage2Ctrl">
+		<h3>
+				<span style="float: left; width: 50px; ">
+					<i ng-if="$root.isLoading" class="fa fa-cog fa-spin"></i>
+					<i ng-if="!$root.isLoading" class="fa fa-cube"></i>
+				</span> 
+				<p>Storing settings v1 - Use switch for different dimensions</p>
+			</h3>
+			<p>This page explains how you can store variables in TM1 and navigate through different pages using the URL</p>
+		
+			<div class="row" ng-if="values.pageIsReady">
+				<div class="col-md-3">
+					<tm1-ui-subnm tm1-instance="dev" tm1-dimension="Year" tm1-subset="All Years" tm1-default-element="{{defaults.year}}" ng-model="selections.year"
+					tm1-change="setYear(data)">
+					</tm1-ui-subnm>
+				</div>
+				<div class="col-md-3">
+					<h3 class="text-center" style="margin-top:5px">{{selections.year}}</h3>
+				</div>
+				<div class="col-md-3">
+					<tm1-ui-subnm tm1-instance="dev" tm1-dimension="Version" tm1-subset="Default" tm1-default-element="{{defaults.version}}"
+					ng-model="selections.version" tm1-change="setVersion(data)">
+					</tm1-ui-subnm>
+				</div>
+				<div class="col-md-3">
+					<h3 class="text-center" style="margin-top:5px">{{selections.version}}</h3>
+				</div>	
+			</div>
+		
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<h3 class="panel-title">Step 1: Initialization</h3>
+						</div>
+						<div class="panel-body">
+							<p>Get user name and trigger the urlvsTM1Settings Comparaison</p>
+							<div hljs>$scope.initializeVariables = function(){
+			$scope.values.pageIsReady = false;
+			$tm1Ui.applicationUser("dev").then(function(data){
+				$scope.values.user = data;
+				$scope.urlVsTM1Settings("Year");
+				$scope.urlVsTM1Settings("Version");
+			});   
+		}</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<h3 class="panel-title">Step 2: Compare URL vs TM1 value</h3>
+						</div>
+						<div class="panel-body">
+							<p>If URL Value is different than TM1 value then update TM1 settings ($scope.setVersion(tm1Value)) Else $scope.setVersion(urlValue)</p>
+							<div class="col-md-12" hljs>$scope.urlVsTM1Settings = function (chosenElement) {
+			$tm1Ui.cellGet('dev', 'System User Settings', $scope.values.user.Name, chosenElement, 'String').then(function (data) {
+				tm1Value = data.Value;
+				switch (chosenElement) {
+					case "Year":
+						urlValue = $location.search().year;
+						if (urlValue && urlValue != tm1Value) {
+							$scope.setYear(urlValue);
+						}else{
+							$scope.setYear(tm1Value);
+						}
+						break;
+					case "Version":
+						urlValue = $location.search().version;
+						if (urlValue && urlValue != tm1Value) {
+							$scope.setVersion(urlValue);
+						}else{
+							$scope.setVersion(tm1Value);
+						}
+						break;
+				}
+				$scope.values.pageIsReady = true;
+			});
+		}</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<h3 class="panel-title">Step 3: Set variables</h3>
+						</div>
+						<div class="panel-body">
+							<p>Update defaults and selections value and run saveTM1Settings function</p>
+							<div class="col-md-6" hljs> $scope.setYear = function (value) {
+			urlValue = $location.search().year;
+			//Set defaults
+			$scope.defaults[chosenElement] = value;
+			//Set Selections
+			$scope.selections.year = value;
+			//Update the URL
+			if (urlValue != value) {
+				$location.search("year", value);
+			}
+			//Update TM1 Settings
+			$scope.saveTM1Settings(value, "Year");
+		};</div>
+													<div class="col-md-6" hljs> $scope.setVersion = function (value) {
+			urlValue = $location.search().version;
+			//Set defaults
+			$scope.defaults.version = value;
+			//Get Description alias for selections.version
+			$tm1Ui.attributeGet('dev', 'Version', value, 'Description').then(function (data) {
+				$scope.selections.version = data.Value;
+			});
+			//Update the URL
+			if (urlValue != value) {
+				$location.search("version", value);
+			}
+			//Update TM1 Settings
+			$scope.saveTM1Settings(value, "Version");
+		};</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<h3 class="panel-title">Step 4: Update TM1 cube </h3>
+						</div>
+						<div class="panel-body">
+							<p>Use CellPut to update System User Settings cube and then refresh the page with $tm1Ui.dataRefresh()</p>
+							<div class="col-md-12" hljs>$scope.saveTM1Settings = function (selectedFilter, chosenElement) {
+			$tm1Ui.cellPut(selectedFilter, 'dev', 'System User Settings', $scope.values.user.Name, chosenElement, 'String').then(function (data) {
+				$tm1Ui.dataRefresh();
+			});
+		}</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<h3 class="panel-title">Step 5: Run the initialization </h3>
+						</div>
+						<div class="panel-body">
+							<p>The initialization has to run at the end of the Controller</p>
+							<div class="col-md-12" hljs>$scope.initializeVariables();</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<h3 class="panel-title">Step 6: Make sure the page wait until variables are ready </h3>
+						</div>
+						<div class="panel-body">
+							<p>Use ng-if="values.pageIsReady" to make sure the page refresh only when the variables are ready</p>
+							<div class="col-md-12" hljs>ng-if="values.pageIsReady"</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		
+		</div>

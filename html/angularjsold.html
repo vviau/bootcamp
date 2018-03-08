@@ -1,0 +1,183 @@
+<div ng-controller="angularjsoldCtrl">
+
+		<style>
+
+			</style>
+		
+			<div class="row">
+				<div class="col-md-4" ng-init="options.changeColor=false" ng-style="options.titleStyle">
+					<h1 style="margin-top:0px"> <i class="fa fa-modx" ng-if="!$root.isLoading"></i>
+						<i class="fa fa-cog fa-spin" ng-if="$root.isLoading"></i> <span>AngularJS main directices</span>	</h1>
+				</div>
+				<!-- BUTTONS -->
+				<div class="col-md-8">
+					<div class="row"></div>
+					<div class="col-md-3 form-group">
+						<label class="col-md-4">Year</label>
+						<div class="col-md-8">
+							<tm1-ui-subnm tm1-select-only="true" tm1-instance="dev" tm1-dimension="Year" tm1-subset="All Years" ng-model="selections.Year"
+							tm1-default-element="2012"
+							tm1-change="setYear(selections.Year)"></tm1-ui-subnm>
+						</div>
+					</div>
+					<div class="btn-group col-md-6" role="group" ng-init="options.showDefinition=true">
+						<button type="button" class="btn btn-primary" ng-click="setTitleStyle(options.changeColor)" >
+							<span ng-hide="options.changeColor">Blue Title</span>
+							<span ng-hide="!options.changeColor">Black Title</span>
+						</button>
+						<button type="button" class="btn btn-primary" ng-click="options.showDefinition=!options.showDefinition">
+							<span ng-hide="options.showDefinition">Show Definitions</span>
+							<span ng-hide="!options.showDefinition">Hide Definitions</span>
+						</button>
+						<button type="button" class="btn btn-primary" ng-click="options.showTable=!options.showTable">
+							<span ng-hide="options.showTable">Show Table</span>
+							<span ng-hide="!options.showTable">Hide Table</span>
+						</button>
+						<button type="button" class="btn btn-primary" ng-click="options.showCharts=!options.showCharts">
+							<span ng-hide="options.showCharts">Show Charts</span>
+							<span ng-hide="!options.showCharts">Hide Charts</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			
+		
+			<!-- LISTS -->
+			<tm1-ui-element-list
+				 tm1-instance="dev"
+				 tm1-dimension="Period"
+				 tm1-subset="Default"
+				 ng-model="lists.periods"
+				 >
+			</tm1-ui-element-list>
+			<tm1-ui-element-list
+				 tm1-instance="dev"
+				 tm1-dimension="Account"
+				 tm1-subset="Gross Margin"
+				 tm1-calculate-top-level="true"
+				 ng-model="lists.accounts"
+				 >
+			</tm1-ui-element-list>
+			<!-- DEFINITION -->
+			<div class="row" ng-init="options.showDefinition=true" ng-if="options.showDefinition">
+				<div class="col-md-4">
+					<div class="well" style="margin-bottom:0px;">
+						<div class="row">
+							<div class="col-md-12">
+								<p>Show/Hide a content if statement is true:</p>
+								<div hljs>ng-show="options.showCharts"</div>
+								<p>Hide/Show a content if statement is true:</p>
+								<div hljs>ng-hide="options.showCharts"</div>
+								<p>Create/Remove a content if statement is true:</p>
+								<div hljs>ng-if="options.showCharts"</div>
+								<p>Repeat one component:</p>
+								<div hljs>ng-repeat="period in lists.periods"</div>
+								<p>Repeat multiple components:</p>
+								<div hljs>ng-repeat-start="account in lists.accounts"
+		ng-repeat-end</div>
+								<p>The ngCloak directive is used to prevent the AngularJS html template from being briefly displayed.</p>
+								<div hljs>ng-cloak</div>
+							</div>	
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="well" style="margin-bottom:0px;">
+						<div class="row">	
+							<div class="col-md-12">
+								<p>Initialize a variable:</p>
+								<div hljs>ng-model="selections.Year"</div>
+								<p>Set a value each time the page refresh:</p>
+								<div hljs>ng-init="options.showCharts=true"</div>
+								<p>Change the class of an object:</p>
+								<div hljs>ng-class="options.showCharts?'panel-warning':'panel-danger'"</div>
+								<p>Change the style of an object:</p>
+								<div hljs>ng-style="options.titleStyle"</div>
+								<p>Change the style of an object:</p>
+								<div hljs>ng-include="options.pageLeftlocation"</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="well" style="margin-bottom:0px;">
+						<div class="row">	
+							<div class="col-md-12">
+								<p>Trigger an action when click:</p>
+								<div hljs>ng-click="options.showCharts=!options.showCharts"</div>
+								<p>Trigger an action when value changed:</p>
+								<div hljs>tm1-change="setYear(selections.Year)"</div>
+								<p>Specify custom behavior on focus event.</p>
+								<div hljs>ng-focus</div>
+								<p>Specify custom behavior on blur event.
+								A blur event fires when an element has lost focus.</p>
+								<div hljs>ng-blur</div>
+								<p>Using AngularJS markup like {{hash}} in an href attribute will make the link go to the wrong URL if the user clicks it before AngularJS has a chance to replace the {{hash}} markup with its value.</p>
+								<div hljs>ng-href</div>
+							</div>	
+						</div>
+					</div>
+				</div>
+			</div>
+				<!-- CREATE THE TABLE -->
+			<div class="row">
+				<div class="col-md-6">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title">Table using ng-repeat, ng-repeat-start and ng-repeat-end</h3>
+						</div>
+						<div class="panel-body table-responsive" ng-init="options.showTable=true" ng-if="options.showTable">
+							<div class="col-md-12">
+								 <table class="table table-striped">
+								
+									<thead>
+									<tr>
+										<th class="text-center" ng-repeat="period in lists.periods"> {{period.alias}} </th>
+									</tr>
+									</thead>
+								
+									<tbody>
+									<tr ng-repeat-start="account in lists.accounts">
+										<td class="padding-left" colspan="13"> {{account.alias}} </td>
+									</tr>
+									<tr ng-repeat-end>
+										<td ng-repeat="period in lists.periods"> <tm1-ui-dbr
+											 tm1-instance="dev"
+											 tm1-cube="General Ledger"
+											 tm1-elements='"Actual","{{selections.Year}}","{{period.alias}}","Local","England","Manufacturing",{{account.key}},"Amount"'
+											 tm1-data-decimal="0"
+											 >
+										</tm1-ui-dbr> </td>
+									</tr>
+									</tbody>
+								
+								 </table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- CHARTS -->
+			<div class="row">
+				<div class="col-md-6">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title">Show/Hide using ng-show="options.showCharts"</h3>
+						</div>
+						<div class="panel-body" ng-show="options.showCharts">
+							<div class="col-md-12" ng-include="options.pageLeftlocation"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="panel" ng-class="options.showCharts?'panel-warning':'panel-danger'">
+						<div class="panel-heading">
+							<h3 class="panel-title">Show/Hide using ng-if="options.showCharts"</h3>
+						</div>
+						<div class="panel-body" ng-if="options.showCharts">
+							<div class="col-md-12" ng-include="options.pageLeftlocation"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>

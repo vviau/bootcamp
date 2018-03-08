@@ -1,0 +1,446 @@
+<div ng-controller="reportdrivenbyexcelCtrl">
+
+	<style>
+		.blank-column{
+		 background-color: black !important;	
+		}
+		.hide-border-column{
+			border-bottom: 0px !important;
+			border-top: 0px !important;
+		}
+	</style>
+	<h1>
+		<span style="float: left; width: 50px; ">
+			<i ng-if="$root.isLoading" class="fa fa-cog fa-spin"></i>
+			<i ng-if="!$root.isLoading" class="fa fa-file-excel-o"></i>
+		</span> report-driven-by-excel
+	</h1>
+
+	<!--================================-->
+	<!-- GET ALL SYSTEM REPORT SETTINGS -->
+
+	<div ng-if="selections.report">
+
+		<!-- GET THE TABLE TYPE -->		
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"rowSubset",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.rowSubset">
+	   </tm1-ui-dbr-hidden>
+
+	   <tm1-ui-dbra ng-hide="true"
+		  tm1-instance="dev"
+		  tm1-dimension="Report"
+		  tm1-element='{{selections.report}}'
+		  tm1-attribute="Table"
+		  ng-model="selections.settingsReportStructure"
+		  >
+	   </tm1-ui-dbra>
+
+		<!-- GET THE ROWS -->		
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"rowSubset",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.rowSubset">
+	   </tm1-ui-dbr-hidden>
+   
+	   <tm1-ui-element-list tm1-instance="dev" tm1-dimension="Product" tm1-subset="{{settings.rowSubset}}" ng-model="lists.rows">
+	   </tm1-ui-element-list>
+
+	   	<!-- GET THE TITLES -->
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"Title1",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.title1">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"Title2",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.title2">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"Title3",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.title3">
+		</tm1-ui-dbr-hidden>
+
+		<!-- GET THE COLUMNS -->
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"Column1",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.column1">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"Column2",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.column2">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"Column3",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.column3">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"Column4",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.column4">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"Column5",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.column5">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"Column6",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.column6">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"Column7",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.column7">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"Column8",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.column8">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"Column9",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.column9">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"Column10",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.column10">
+		</tm1-ui-dbr-hidden>
+
+		<!-- GET SUB COLUMNS  -->
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubColumn1",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subColumn1">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubColumn2",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subColumn2">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubColumn3",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subColumn3">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubColumn4",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subColumn4">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubColumn5",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subColumn5">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubColumn6",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subColumn6">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubColumn7",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subColumn7">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubColumn8",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subColumn8">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubColumn9",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subColumn9">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubColumn10",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subColumn10">
+		</tm1-ui-dbr-hidden>
+
+		<!-- GET SUB SUB COLUMNS  -->
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubColumn1",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubColumn1">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubColumn2",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubColumn2">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubColumn3",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubColumn3">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubColumn4",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubColumn4">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubColumn5",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubColumn5">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubColumn6",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubColumn6">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubColumn7",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubColumn7">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubColumn8",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubColumn8">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubColumn9",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubColumn9">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubColumn10",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubColumn10">
+		</tm1-ui-dbr-hidden>
+
+		<!-- GET SUB SUB SUB COLUMNS  -->
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubSubColumn1",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubSubColumn1">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubSubColumn2",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubSubColumn2">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubSubColumn3",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubSubColumn3">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubSubColumn4",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubSubColumn4">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubSubColumn5",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubSubColumn5">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubSubColumn6",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubSubColumn6">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubSubColumn7",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubSubColumn7">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubSubColumn8",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubSubColumn8">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubSubColumn9",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubSubColumn9">
+		</tm1-ui-dbr-hidden>
+		<tm1-ui-dbr-hidden tm1-instance="dev" tm1-cube="{{defaults.settingsCube}}" tm1-elements='{{selections.report}},{{selections.settingsReportStructure}},"SubSubSubColumn10",{{defaults.settingsReportMeasure}}'
+		ng-model="settings.subSubSubColumn10">
+		</tm1-ui-dbr-hidden>
+
+	</div>
+
+	<!-- CREATE LIST  -->
+
+	<!-- Report -->
+
+	<div class="row">
+		<div class="col-md-4">
+			<tm1-ui-subnm
+			   tm1-instance="dev"
+			   tm1-dimension="Report"
+			   tm1-subset="All Reports Structure 1"
+			   tm1-default-element = "{{values.urlReport}}"
+			   ng-model="selections.report"
+			   tm1-change="setReport(data)"
+			   >
+			</tm1-ui-subnm>
+		</div>
+		<div class="col-md-4">
+
+		</div>
+		<div class="col-md-4">
+
+		</div>
+	</div>
+
+	<!--===============-->
+	<!-- BUILD TABLE 1 -->
+
+	<div class="row" ng-if="selections.settingsReportStructure=='Table 1'">
+		<div class="col-md-12">
+			<table class="table table-striped">
+
+				<thead>
+					<tr>
+						<th class="text-center" > </th>
+						<th class="text-center" ng-if="settings.column1.length>0"> {{settings.column1}} </th>
+						<th class="text-center" ng-if="settings.column2.length>0" > {{settings.column2}} </th>
+						<th class="text-center" ng-if="settings.column3.length>0"> {{settings.column3}} </th>
+						<th class="text-center" ng-if="settings.column4.length>0"> {{settings.column4}} </th>
+						<th class="text-center" ng-if="settings.column5.length>0"> {{settings.column5}} </th>
+						<th class="text-center" ng-if="settings.column6.length>0"> {{settings.column6}} </th>
+						<th class="text-center" ng-if="settings.column7.length>0"> {{settings.column7}} </th>
+						<th class="text-center" ng-if="settings.column8.length>0"> {{settings.column8}} </th>
+						<th class="text-center" ng-if="settings.column9.length>0"> {{settings.column9}} </th>
+						<th class="text-center" ng-if="settings.column10.length>0"> {{settings.column10}} </th>
+					</tr>
+					<tr>
+						<th class="text-center" > </th>
+						<th class="text-center" ng-if="settings.subColumn1.length>0"> {{settings.subColumn1}} </th>
+						<th class="text-center" ng-if="settings.subColumn2.length>0"> {{settings.subColumn2}} </th>
+						<th class="text-center" ng-if="settings.subColumn3.length>0"> {{settings.subColumn3}} </th>
+						<th class="text-center" ng-if="settings.subColumn4.length>0"> {{settings.subColumn4}} </th>
+						<th class="text-center" ng-if="settings.subColumn5.length>0"> {{settings.subColumn5}} </th>
+						<th class="text-center" ng-if="settings.subColumn6.length>0"> {{settings.subColumn6}} </th>
+						<th class="text-center" ng-if="settings.subColumn7.length>0"> {{settings.subColumn7}} </th>
+						<th class="text-center" ng-if="settings.subColumn8.length>0"> {{settings.subColumn8}} </th>
+						<th class="text-center" ng-if="settings.subColumn9.length>0"> {{settings.subColumn9}} </th>
+						<th class="text-center" ng-if="settings.subColumn2.length>0"> {{settings.subColumn10}} </th>
+					</tr>
+					<tr>
+						<th class="text-center" > </th>
+						<th class="text-center" ng-if="settings.subSubColumn1.length>0"> {{settings.subSubColumn1}} </th>
+						<th class="text-center" ng-if="settings.subSubColumn2.length>0"> {{settings.subSubColumn2}} </th>
+						<th class="text-center" ng-if="settings.subSubColumn3.length>0"> {{settings.subSubColumn3}} </th>
+						<th class="text-center" ng-if="settings.subSubColumn4.length>0"> {{settings.subSubColumn4}} </th>
+						<th class="text-center" ng-if="settings.subSubColumn5.length>0"> {{settings.subSubColumn5}} </th>
+						<th class="text-center" ng-if="settings.subSubColumn6.length>0"> {{settings.subSubColumn6}} </th>
+						<th class="text-center" ng-if="settings.subSubColumn7.length>0"> {{settings.subSubColumn7}} </th>
+						<th class="text-center" ng-if="settings.subSubColumn8.length>0"> {{settings.subSubColumn8}} </th>
+						<th class="text-center" ng-if="settings.subSubColumn9.length>0"> {{settings.subSubColumn9}} </th>
+						<th class="text-center" ng-if="settings.subSubColumn10.length>0"> {{settings.subSubColumn10}} </th>
+					</tr>
+					<tr>
+						<th class="text-center" > </th>
+						<th class="text-center" ng-if="settings.subSubSubColumn1.length>0"> {{settings.subSubSubColumn1}} </th>
+						<th class="text-center"ng-if="settings.subSubSubColumn2.length>0"> {{settings.subSubSubColumn2}} </th>
+						<th class="text-center" ng-if="settings.subSubSubColumn3.length>0"> {{settings.subSubSubColumn3}} </th>
+						<th class="text-center" ng-if="settings.subSubSubColumn4.length>0"> {{settings.subSubSubColumn4}} </th>
+						<th class="text-center" ng-if="settings.subSubSubColumn5.length>0"> {{settings.subSubSubColumn5}} </th>
+						<th class="text-center" ng-if="settings.subSubSubColumn6.length>0"> {{settings.subSubSubColumn6}} </th>
+						<th class="text-center" ng-if="settings.subSubSubColumn7.length>0"> {{settings.subSubSubColumn7}} </th>
+						<th class="text-center" ng-if="settings.subSubSubColumn8.length>0"> {{settings.subSubSubColumn8}} </th>
+						<th class="text-center" ng-if="settings.subSubSubColumn9.length>0"> {{settings.subSubSubColumn9}} </th>
+						<th class="text-center" ng-if="settings.subSubSubColumn10.length>0"> {{settings.subSubSubColumn10}} </th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr ng-repeat="row in lists.rows">
+						<td> {{row.alias}} </td>
+						<td ng-if="settings.column1.length>0" class="text-right" ng-class="settings.column1==''?'blank-column':''">
+							<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column1}},{{settings.subColumn1}},{{settings.subSubColumn1}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.subSubSubColumn1}}'
+							 tm1-data-decimal="0">
+							</tm1-ui-dbr>
+						</td>
+						<td ng-if="settings.column2.length>0" class="text-right" ng-class="settings.column2==''?'blank-column':''">
+							<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column2}},{{settings.subColumn2}},{{settings.subSubColumn2}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.subSubSubColumn2}}'
+							 tm1-data-decimal="0">
+							</tm1-ui-dbr>
+						</td>
+						<td ng-if="settings.column3.length>0" class="text-right" ng-class="settings.column3==''?'blank-column':''">
+							<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column3}},{{settings.subColumn3}},{{settings.subSubColumn3}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.subSubSubColumn3}}'
+							 tm1-data-decimal="0">
+							</tm1-ui-dbr>
+						</td>
+						<td ng-if="settings.column4.length>0" class="text-right" ng-class="settings.column4==''?'blank-column':''">
+							<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column4}},{{settings.subColumn4}},{{settings.subSubColumn4}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.subSubSubColumn4}}'
+							 tm1-data-decimal="0">
+							</tm1-ui-dbr>
+						</td>
+						<td ng-if="settings.column5.length>0" class="text-right" ng-class="settings.column5==''?'blank-column':''">
+							<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column5}},{{settings.subColumn5}},{{settings.subSubColumn5}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.subSubSubColumn5}}'
+							 tm1-data-decimal="0">
+							</tm1-ui-dbr>
+						</td>
+						<td ng-if="settings.column6.length>0" class="text-right" ng-class="settings.column6==''?'blank-column':''">
+							<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column6}},{{settings.subColumn6}},{{settings.subSubColumn6}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.subSubSubColumn6}}'
+							 tm1-data-decimal="0">
+							</tm1-ui-dbr>
+						</td>
+						<td ng-if="settings.column7.length>0" class="text-right" ng-class="settings.column7==''?'blank-column':''">
+							<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column7}},{{settings.subColumn7}},{{settings.subSubColumn7}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.subSubSubColumn7}}'
+							 tm1-data-decimal="0">
+							</tm1-ui-dbr>
+						</td>
+						<td ng-if="settings.column8.length>0" class="text-right" ng-class="settings.column8==''?'blank-column':''">
+							<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column8}},{{settings.subColumn8}},{{settings.subSubColumn8}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.subSubSubColumn8}}'
+							 tm1-data-decimal="0">
+							</tm1-ui-dbr>
+						</td>
+						<td ng-if="settings.column9.length>0" class="text-right" ng-class="settings.column9==''?'blank-column':''">
+							<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column9}},{{settings.subColumn9}},{{settings.subSubColumn9}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.subSubSubColumn9}}'
+							 tm1-data-decimal="0">
+							</tm1-ui-dbr>
+						</td>
+						<td ng-if="settings.column10.length>0" class="text-right" ng-class="settings.column10==''?'blank-column':''">
+							<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column10}},{{settings.subColumn10}},{{settings.subSubColumn10}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.subSubSubColumn10}}'
+							 tm1-data-decimal="0">
+							</tm1-ui-dbr>
+						</td>
+
+					</tr>
+				</tbody>
+
+			</table>
+		</div>
+	</div>
+
+	<!--===============-->
+	<!-- BUILD TABLE 2 -->
+
+	<div class="row" ng-if="selections.settingsReportStructure=='Table 2'">
+			<div class="col-md-12">
+				<table class="table table-striped">
+	
+					<thead>
+						<tr>
+							<th class="text-center" > </th>
+							<th class="text-center" ng-if="settings.column1.length>0"> {{settings.column1}} </th>
+							<th class="text-center" ng-if="settings.column2.length>0" > {{settings.column2}} </th>
+							<th class="text-center" ng-if="settings.column3.length>0"> {{settings.column3}} </th>
+							<th class="text-center" ng-if="settings.column4.length>0"> {{settings.column4}} </th>
+							<th class="text-center" ng-if="settings.column5.length>0"> {{settings.column5}} </th>
+							<th class="text-center" ng-if="settings.column6.length>0"> {{settings.column6}} </th>
+							<th class="text-center" ng-if="settings.column7.length>0"> {{settings.column7}} </th>
+							<th class="text-center" ng-if="settings.column8.length>0"> {{settings.column8}} </th>
+							<th class="text-center" ng-if="settings.column9.length>0"> {{settings.column9}} </th>
+							<th class="text-center" ng-if="settings.column10.length>0"> {{settings.column10}} </th>
+						</tr>
+						<tr>
+							<th class="text-center" > </th>
+							<th class="text-center" ng-if="settings.subColumn1.length>0"> {{settings.subColumn1}} </th>
+							<th class="text-center" ng-if="settings.subColumn2.length>0"> {{settings.subColumn2}} </th>
+							<th class="text-center" ng-if="settings.subColumn3.length>0"> {{settings.subColumn3}} </th>
+							<th class="text-center" ng-if="settings.subColumn4.length>0"> {{settings.subColumn4}} </th>
+							<th class="text-center" ng-if="settings.subColumn5.length>0"> {{settings.subColumn5}} </th>
+							<th class="text-center" ng-if="settings.subColumn6.length>0"> {{settings.subColumn6}} </th>
+							<th class="text-center" ng-if="settings.subColumn7.length>0"> {{settings.subColumn7}} </th>
+							<th class="text-center" ng-if="settings.subColumn8.length>0"> {{settings.subColumn8}} </th>
+							<th class="text-center" ng-if="settings.subColumn9.length>0"> {{settings.subColumn9}} </th>
+							<th class="text-center" ng-if="settings.subColumn2.length>0"> {{settings.subColumn10}} </th>
+						</tr>
+						<tr>
+							<th class="text-center" > </th>
+							<th class="text-center" ng-if="settings.subSubColumn1.length>0"> {{settings.subSubColumn1}} </th>
+							<th class="text-center" ng-if="settings.subSubColumn2.length>0"> {{settings.subSubColumn2}} </th>
+							<th class="text-center" ng-if="settings.subSubColumn3.length>0"> {{settings.subSubColumn3}} </th>
+							<th class="text-center" ng-if="settings.subSubColumn4.length>0"> {{settings.subSubColumn4}} </th>
+							<th class="text-center" ng-if="settings.subSubColumn5.length>0"> {{settings.subSubColumn5}} </th>
+							<th class="text-center" ng-if="settings.subSubColumn6.length>0"> {{settings.subSubColumn6}} </th>
+							<th class="text-center" ng-if="settings.subSubColumn7.length>0"> {{settings.subSubColumn7}} </th>
+							<th class="text-center" ng-if="settings.subSubColumn8.length>0"> {{settings.subSubColumn8}} </th>
+							<th class="text-center" ng-if="settings.subSubColumn9.length>0"> {{settings.subSubColumn9}} </th>
+							<th class="text-center" ng-if="settings.subSubColumn10.length>0"> {{settings.subSubColumn10}} </th>
+						</tr>
+					</thead>
+	
+					<tbody>
+						<tr ng-repeat="row in lists.rows">
+							<td> {{row.alias}} </td>
+							<td ng-if="settings.column1.length>0" class="text-right" ng-class="settings.column1==''?'blank-column':''">
+								<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column1}},{{settings.subColumn1}},{{settings.subSubColumn1}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.title3}}'
+								 tm1-data-decimal="0">
+								</tm1-ui-dbr>
+							</td>
+							<td ng-if="settings.column2.length>0" class="text-right" ng-class="settings.column2==''?'blank-column':''">
+								<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column2}},{{settings.subColumn2}},{{settings.subSubColumn2}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.title3}}'
+								 tm1-data-decimal="0">
+								</tm1-ui-dbr>
+							</td>
+							<td ng-if="settings.column3.length>0" class="text-right" ng-class="settings.column3==''?'blank-column':''">
+								<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column3}},{{settings.subColumn3}},{{settings.subSubColumn3}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.title3}}'
+								 tm1-data-decimal="0">
+								</tm1-ui-dbr>
+							</td>
+							<td ng-if="settings.column4.length>0" class="text-right" ng-class="settings.column4==''?'blank-column':''">
+								<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column4}},{{settings.subColumn4}},{{settings.subSubColumn4}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.title3}}'
+								 tm1-data-decimal="0">
+								</tm1-ui-dbr>
+							</td>
+							<td ng-if="settings.column5.length>0" class="text-right" ng-class="settings.column5==''?'blank-column':''">
+								<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column5}},{{settings.subColumn5}},{{settings.subSubColumn5}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.title3}}'
+								 tm1-data-decimal="0">
+								</tm1-ui-dbr>
+							</td>
+							<td ng-if="settings.column6.length>0" class="text-right" ng-class="settings.column6==''?'blank-column':''">
+								<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column6}},{{settings.subColumn6}},{{settings.subSubColumn6}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.title3}}'
+								 tm1-data-decimal="0">
+								</tm1-ui-dbr>
+							</td>
+							<td ng-if="settings.column7.length>0" class="text-right" ng-class="settings.column7==''?'blank-column':''">
+								<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column7}},{{settings.subColumn7}},{{settings.subSubColumn7}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.title3}}'
+								 tm1-data-decimal="0">
+								</tm1-ui-dbr>
+							</td>
+							<td ng-if="settings.column8.length>0" class="text-right" ng-class="settings.column8==''?'blank-column':''">
+								<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column8}},{{settings.subColumn8}},{{settings.subSubColumn8}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.title3}}'
+								 tm1-data-decimal="0">
+								</tm1-ui-dbr>
+							</td>
+							<td ng-if="settings.column9.length>0" class="text-right" ng-class="settings.column9==''?'blank-column':''">
+								<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column9}},{{settings.subColumn9}},{{settings.subSubColumn9}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.title3}}'
+								 tm1-data-decimal="0">
+								</tm1-ui-dbr>
+							</td>
+							<td ng-if="settings.column10.length>0" class="text-right" ng-class="settings.column10==''?'blank-column':''">
+								<tm1-ui-dbr tm1-instance="dev" tm1-cube="Retail" tm1-elements='{{settings.column10}},{{settings.subColumn10}},{{settings.subSubColumn10}},{{settings.title1}},{{settings.title2}},{{row.key}},{{settings.title3}}'
+								 tm1-data-decimal="0">
+								</tm1-ui-dbr>
+							</td>
+	
+						</tr>
+					</tbody>
+	
+				</table>
+			</div>
+		</div>
+
+
+
+</div>

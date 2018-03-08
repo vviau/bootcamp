@@ -1,0 +1,34 @@
+{
+  "sample-freeze": {
+    "url": "/sample-freeze",
+    "templateUrl": "html/sample-freeze.html"
+  },
+  "report-driven-by-excel": {
+    "url": "/report-driven-by-excel",
+    "templateUrl": "html/report-driven-by-excel.html"
+  },
+  "angularjs": {
+    "url": "/angularjs",
+    "templateUrl": "html/angularjs.html"
+  },
+  "angularjsold": {
+    "url": "/angularjsold",
+    "templateUrl": "html/angularjsold.html"
+  },
+  "global-variables": {
+    "url": "/global-variables",
+    "templateUrl": "html/global-variables.html"
+  },
+  "global-variables-page2": {
+    "url": "/global-variables-page2",
+    "templateUrl": "html/global-variables-page2.html"
+  },
+  "kpi": {
+    "url": "/kpi",
+    "templateUrl": "html/kpi.html"
+  },
+  "global-variables-v2": {
+    "url": "/global-variables-v2",
+    "templateUrl": "html/global-variables-v2.html"
+  }
+}

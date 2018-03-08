@@ -1,0 +1,145 @@
+<div ng-controller="globalvariablesCtrl">
+
+	<h3>
+		<span style="float: left; width: 50px; ">
+			<i ng-if="$root.isLoading" class="fa fa-cog fa-spin"></i>
+			<i ng-if="!$root.isLoading" class="fa fa-cube"></i>
+		</span> 
+		<p>Storing settings - Use service global.js </p>
+	</h3>
+	<p>This page explains how you can store variables in TM1 and navigate through different pages using the URL</p>
+
+	<div class="row">
+		<div class="col-md-3" ng-if="defaults.Year">
+			<tm1-ui-subnm tm1-instance="dev" tm1-dimension="Year" tm1-subset="All Years" tm1-default-element="{{defaults.Year}}" ng-model="selections.Year"
+			tm1-change='globals.updateSettings(values, defaults, selections, "Year", {"tm1Dimension":"Year", "tm1Alias":"Financial Year", "value":data})'>
+			</tm1-ui-subnm>
+		</div>
+		<div class="col-md-3">
+			<h3 class="text-center" style="margin-top:5px">{{selections.Year}}</h3>
+		</div>
+		<div class="col-md-3" ng-if="defaults.Version">
+			<tm1-ui-subnm tm1-instance="dev" tm1-dimension="Version" tm1-subset="Default" tm1-default-element="{{defaults.Version}}"
+			ng-model="selections.Version" tm1-change='globals.updateSettings(values, defaults, selections, "Version", {"tm1Dimension":"Version", "tm1Alias":"Description", "value":data})'>
+			</tm1-ui-subnm>
+		</div>
+		<div class="col-md-3">
+			<h3 class="text-center" style="margin-top:5px">{{selections.Version}}</h3>
+		</div>	
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Step 1: Create a new service js/global.js</h3>
+				</div>
+				<div class="panel-body">
+					<p>All the following code is stored in a separate files avoiding to repeat this code in every pages.</p>
+					<div hljs>app.service('globals', ['$tm1Ui', '$location', function($tm1Ui, $location) {
+	this.updateSettings = function (values, defaults, selections, parameter, options) {
+	//Get user settings value from Settings cube
+		$tm1Ui.cellGet(defaults.settingsInstance, defaults.settingsCube, values.user.Name, parameter, defaults.settingsMeasure).then(function (data) {
+			var tm1Value = data.Value;
+			var urlValue = $location.search()[parameter];
+			var newValue = undefined;
+			//Determine the new value (SUBNM, URL or TM1)
+			if(options.value){
+				//if the value is coming from SUBNM
+				newValue = options.value;
+			}else{
+				//if the value is coming from URL
+				if (urlValue && urlValue != tm1Value) {
+					newValue = urlValue;
+				}else{
+					newValue = tm1Value;
+				}
+			}
+			//Set defaults variable
+			defaults[parameter] = newValue;
+			//Set selections variable (if tm1Alias = tm1Alias else newValue)
+			if(options.tm1Alias){
+				//Get Description alias for selections.version
+				$tm1Ui.attributeGet(defaults.settingsInstance, options.tm1Dimension, newValue, options.tm1Alias).then(function (data) {
+					var aliasValue = undefined;
+					if(data.Value){
+						aliasValue = data.Value;
+					}else{
+						aliasValue = newValue;
+					}
+					selections[parameter] = aliasValue;
+				});
+			}else{
+				selections[parameter] = newValue;
+			}
+			//Update the URL
+			$location.search([parameter], newValue);
+			//No need to update the TM1 settings if the new value is the same
+			if(newValue != tm1Value){
+				$tm1Ui.cellPut(newValue, defaults.settingsInstance, defaults.settingsCube, values.user.Name, parameter, defaults.settingsMeasure).then(function (data) {
+				});
+			}
+		});
+	}
+}]);</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Step 2: Initialize</h3>
+				</div>
+				<div class="panel-body">
+					<p>Get the user and call the service globals.updateSettings</p>
+					<div class="col-md-12" hljs>    $scope.initializeVariables = function(){
+	$tm1Ui.applicationUser("dev").then(function(data){
+		$scope.values.user = data;
+		globals.updateSettings($scope.values, $scope.defaults, $scope.selections, "Year", {"tm1Dimension":"Year", "tm1Alias":"Financial Year"});
+		globals.updateSettings($scope.values, $scope.defaults, $scope.selections, "Version", {"tm1Dimension":"Version", "tm1Alias":"Description"});
+	});   
+}</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Step 3: Run the initialization </h3>
+				</div>
+				<div class="panel-body">
+					<p>The initialization has to run at the end of the Controller</p>
+					<div class="col-md-12" hljs>$scope.initializeVariables();</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Step 4: Create a function which is going to be called from the HTML page </h3>
+				</div>
+				<div class="panel-body">
+					<p>The initialization has to run at the end of the Controller</p>
+					<div class="col-md-12" hljs>$scope.updateSettings = function (values, defaults, selections, parameter, options){
+	globals.updateSettings(values, defaults, selections, parameter, options); 
+}</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Step 5: Run from SUBNM </h3>
+				</div>
+				<div class="panel-body">
+					<p>Use tm1-change to run the funciton updateSettings which update the SUBNMs</p>
+					<div class="col-md-12" hljs><tm1-ui-subnm tm1-instance="dev" tm1-dimension="Year" tm1-subset="All Years" tm1-default-element="{{defaults.Year}}" ng-model="selections.Year"
+	tm1-change='updateSettings(values, defaults, selections, "Year", {"tm1Dimension":"Year", "tm1Alias":"Financial Year", "value":data})'>
+</tm1-ui-subnm></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>

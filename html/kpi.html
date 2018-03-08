@@ -1,0 +1,311 @@
+<div ng-controller="kpiCtrl">
+
+	<style>
+		#imagebg {
+			background-image: url(images/au-sydney-darling-harbour.jpg);
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-position: center;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+			width: 100%;
+			padding-bottom: 100%;
+			position: fixed;
+			top: 0px;
+			left: 0px;
+			z-index: -1;
+			min-height: 900px;
+			-webkit-filter: grayscale(1%);
+		}
+
+@media screen {
+		.panel-black {
+			background-color: black;
+			color: white;
+			margin-top:0px;
+		}
+}
+
+		.panel-heading-black {
+			padding: 5px 10px;
+			border-bottom: 1px solid transparent;
+			border-top-left-radius: 3px;
+			border-top-right-radius: 3px;
+		}
+
+		.panel-active {
+			border-color: white;
+		}
+
+		.value-actual {
+			color: #2578A6;
+			font-size: 4em;
+		}
+
+		.value-budget {
+			color: #699531;
+			font-size: 2em;
+		}
+
+		.value-prev {
+			color: #BB9D1B;
+			font-size: 2em;
+		}
+
+		.sm-text-white{
+			color: white;
+			font-size: 0.6em;
+		}
+
+		.btn-info {
+			color: #fff;
+			background-color: black;
+			border: 0px;
+			border-color: white;
+		}
+
+		.btn-info-actif {
+			color: #fff;
+			background-color: #31b0d5;
+			border: 0px;
+			border-color: white;
+		}
+
+		.icon-color {
+			color: #31b0d5;
+		}
+
+		.filter-black > select {
+			color: #fff;
+			background-color: black;
+			cursor: pointer
+		}	
+
+		.panel-body-black{
+			padding:0px;
+		}
+
+		@media print {
+			/*HIDE NAVIGAGION BAR*/
+			nav.navbar-canvas{
+				display:none;
+			}
+			/*REDUCE TOP PADDING*/
+            #page-view {
+				padding-top:0px;
+            }
+			#filter {
+         		display:none;
+         	}
+			.btn {
+      		display: none;
+      		}
+			.panel-black {
+				background-color: white;
+				color: black;	
+				border-color: gray;
+			}
+			.panel-active {
+				border-color: black;
+			}
+			.sm-text-white{
+				color: black;
+				font-size: 0.6em;
+			}
+			#imagebg {
+				display: none;
+			}
+        }
+		    
+	</style>
+
+	<!-- Create Lists -->
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Region" tm1-subset="Default" ng-model="lists.regions">
+	</tm1-ui-element-list>
+
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Department" tm1-subset="Category List" tm1-attributes="Product Category"
+	 ng-model="lists.categories">
+	</tm1-ui-element-list>
+
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Account" tm1-subset="Finance Analytics" ng-model="lists.accountsLevel1">
+	</tm1-ui-element-list>
+
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Account" tm1-mdx="{[Account].[{{selections.accountLevel1}}].Children}"
+	 tm1-attributes="Description" ng-model="lists.accountsLevel2">
+	</tm1-ui-element-list>
+
+	<tm1-ui-element-list tm1-instance="dev" tm1-dimension="Account" tm1-mdx="{[Account].[{{selections.accountLevel2}}].Children}"
+	 tm1-attributes="Description" ng-model="lists.accountsLevel3">
+	</tm1-ui-element-list>
+
+	<!-- BACKGROUND IMAGE -->
+	<div id="imagebg" class="col-xs-12" style="bottom:0px; position:fixed; text-align: right; right:0px;  top:50px; float:right;">
+	</div>
+	<!-- TOP BANNER WITH BUTTONS-->
+	<div class="row">
+		<div class="col-md-12">
+			<div class="col-md-6 visible-print-block"> 
+				<h3> Filters: {{selections.year}} {{selections.period}} - {{selections.region}} - {{selections.category}}
+				</h3> 
+			</div>
+			<div class="col-md-2" id="filter">
+					<tm1-ui-subnm
+							tm1-instance="dev"
+							tm1-dimension="Year"
+							tm1-subset="Selected Years"
+							tm1-ui-class="filter-black"
+							tm1-default-element="{{values.urlYear}}"
+							tm1-select-only="true"
+							ng-model="selections.year"
+							tm1-change="setYear(data)"
+							>
+					</tm1-ui-subnm>
+				</div>
+				<div class="col-md-2" id="filter">
+						<tm1-ui-subnm
+								tm1-instance="dev"
+								tm1-dimension="Month"
+								tm1-subset="Default"
+								tm1-ui-class="filter-black"
+								tm1-attribute="Short Description"
+								tm1-default-element="{{values.urlPeriod}}"
+								tm1-select-only="true"
+								ng-model="selections.period"
+								tm1-change="setPeriod(data)"
+								>
+						</tm1-ui-subnm>
+					</div>
+				<div class="col-md-8" id="filter">
+					<div class="btn-group" role="group" >
+						<button type="button" class="btn btn-info" ng-click="setRegion(defaults.region)" ng-if="selections.region != defaults.region">{{selections.region}} <i class="fa fa-close"></i></button>
+						<button type="button" class="btn btn-info" ng-click="setCategory(defaults.category)" ng-if="selections.category != defaults.category">{{selections.category}} <i class="fa fa-close"></i></button>
+					</div>
+					<i class="fa fa-plus-circle fa-3x pull-right icon-color" style="cursor:pointer" 
+							ng-if="selections.showRightSelections=='false'" 
+							ng-click="setShowRightSelections('true')"></i>
+					<i class="fa fa-minus-circle fa-3x pull-right icon-color"style="cursor:pointer" 
+					ng-if="selections.showRightSelections=='true'" ng-click="setShowRightSelections('false')"></i>
+				</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<!-- MAIN SECTION WITH KPIs -->
+		<div ng-class="selections.showRightSelections=='true'?'col-md-9':'col-md-12'">
+			<!-- PANEL ACCOUNTS LEVEL1 -->
+			<div class="row" style="margin-top:0px">
+				<div class="col-lg-4 col-md-6" ng-repeat="accountLevel1 in lists.accountsLevel1" style="margin-top:0px">
+					<div class="panel panel-black" ng-class="selections.accountLevel1==accountLevel1.alias?'panel-active':''" style="cursor:pointer;margin-right:10px;margin-left:10px"
+					 ng-click="selections.accountLevel1=accountLevel1.alias">
+						<div class="panel-heading-black">
+							<h3 class="panel-title">{{accountLevel1.alias}}</h3>
+						</div>
+						<div class="panel-body panel-body-black">
+							<!-- VALUES -->
+							<div class="col-md-12 text-center" ng-repeat="version in lists.versions" ng-class="version.class">
+								<span ng-if="version.id!='Actual'" class="sm-text-white">{{version.alias}}</span>
+								<tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='{{version.id}},{{selections.year}},{{selections.period}},"Local",{{selections.region}},{{selections.category}},{{accountLevel1.alias}},{{selections.measure}}'
+								 tm1-data-decimal="2">
+								</tm1-ui-dbr> 
+								<span ng-if="selections.measure=='Amount M'"> M</span>
+							</div>
+							<!-- CHART -->
+							<div class="col-md-12">
+								<tm1-ui-chart
+									 tm1-chart-type="discreteBar"
+									 tm1-height="100"
+									 tm1-axis-label-x=""
+									 tm1-axis-label-y=""
+									 tm1-data-decimal="0"
+									 tm1-duration="2000"
+									 tm1-margin="{top: 10, right: 10, bottom: 20, left: 2}"
+									 >
+											 <tm1-ui-chart-dbr ng-repeat="version in lists.versions" tm1-instance="dev" tm1-cube="General Ledger" tm1-label="{{version.id}}" tm1-elements='{{version.id}},{{selections.year}},{{selections.period}},"Local",{{selections.region}},{{selections.category}},{{accountLevel1.alias}},{{selections.measure}}' ></tm1-ui-chart-dbr>
+								
+								</tm1-ui-chart>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- PANEL ACCOUNTS LEVEL2 -->
+			<div class="row">
+				<div class="col-lg-4 col-md-6" ng-repeat="accountLevel2 in lists.accountsLevel2">
+					<div class="panel panel-black" ng-class="selections.accountLevel2==accountLevel2.alias?'panel-active':''" style="cursor:pointer;margin-right:60px;margin-left:60px"
+					 ng-click="selections.accountLevel2=accountLevel2.alias">
+						<div class="panel-heading">
+							<h3 class="panel-title">{{accountLevel2.alias}}</h3>
+						</div>
+						<div class="panel-body panel-body-black">
+								<div class="col-md-12 text-center" ng-repeat="version in lists.versionsPercent" ng-class="version.class">
+									<span ng-if="version.id!='Actual'" class="sm-text-white">{{version.alias}}</span>
+										<tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='{{version.id}},{{selections.year}},{{selections.period}},"Local",{{selections.region}},{{selections.category}},{{accountLevel2.alias}},Amount'
+										 tm1-data-decimal="1"
+										 tm1-format-percentage="true">
+										</tm1-ui-dbr>
+									</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- PANEL ACCOUNTS LEVEL3 -->
+			<div class="row">
+				<div class="col-lg-2 col-md-6" ng-repeat="accountLevel3 in lists.accountsLevel3">
+					<div class="panel panel-black panel-active" style="cursor:pointer">
+						<div class="panel-heading">
+							<h3 class="panel-title">{{accountLevel3.alias}}</h3>
+						</div>
+						<div class="panel-body panel-body-black	">
+								<div class="col-md-12 text-center" ng-repeat="version in lists.versionsPercent" ng-class="version.class">
+										<span ng-if="version.id!='Actual'" class="sm-text-white">{{version.alias}}</span>
+										<tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements='{{version.id}},{{selections.year}},{{selections.period}},"Local",{{selections.region}},{{selections.category}},{{accountLevel3.alias}},Amount'
+										 tm1-data-decimal=1
+										 tm1-format-percentage="true">
+										</tm1-ui-dbr>
+									</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- SECTION WITH SELECTIONS -->
+		<div class="col-lg-3 col-md-6" ng-if="selections.showRightSelections=='true'">
+			<div class="col-md-6 text-center" style="padding-right:0px;padding-left:0px;">
+				<div class="btn-group-vertical">
+					<button type="button" class="btn btn-info" ng-class="{'btn-info-actif':region.alias == selections.region}" ng-repeat="region in lists.regions" ng-click="setRegion(region.alias)">
+						<span class="text-left">{{region.alias}}</span>
+						<i ng-if="region.alias != selections.region" class="fa pull-right fa-info-circle" uib-popover="{{selections.accountLevel1}}: ACT = {{region.valuesPopOver | number:0}}" popover-append-to-body="true"
+						 popover-trigger="'mouseenter'" popover-class="popover-class-danger"></i>
+						 <tm1-ui-dbr-hidden
+							tm1-instance="dev"
+							tm1-cube="General Ledger"
+							tm1-elements='Actual,{{selections.year}},{{selections.period}},"Local",{{region.alias}},{{selections.category}},{{selections.accountLevel1}},Amount'
+							ng-model="region.valuesPopOver"
+							>
+						 </tm1-ui-dbr-hidden> 
+					</button>
+				</div>
+			</div>
+			<div class="col-md-6 text-center" style="padding-right:0px;padding-left:0px;">
+				<div class="btn-group-vertical">
+					<button type="button" class="btn btn-info" ng-class="{'btn-info-actif':category.alias == selections.category}" ng-repeat="category in lists.categories" ng-click="setCategory(category	.alias)">
+						<span class="text-left">{{category.alias}}</span>
+						<i ng-if="category.alias != selections.category" class="fa pull-right fa-info-circle" uib-popover="{{selections.accountLevel1}}: ACT = {{category.valuesPopOver | number:0}}" popover-append-to-body="true"
+							popover-trigger="'mouseenter'" popover-class="popover-class-danger"></i>
+							<tm1-ui-dbr-hidden
+							tm1-instance="dev"
+							tm1-cube="General Ledger"
+							tm1-elements='Actual,{{selections.year}},{{selections.period}},"Local",{{selections.region}},{{category.alias}},{{selections.accountLevel1}},Amount'
+							ng-model="category.valuesPopOver"
+							>
+							</tm1-ui-dbr-hidden>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>
