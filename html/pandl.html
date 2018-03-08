@@ -1,0 +1,134 @@
+<div ng-controller="testafCtrl">
+    <div class="row" style="margin-top: -10px; margin-left: -15px;">
+        <h3>
+            <div class="col-md-3" style="color:rgb(111,111,111);">
+                <strong>P & L Data Entry Template</strong>
+            </div>
+        </h3>
+    </div>
+
+    <br>
+
+
+    <h3>Criteria</h3>
+
+    <div class="row">
+        <div class="col-md-1" style="text-align: right; margin-top: 5px;">
+            <label>Year:</label>
+        </div>
+        <div class="col-md-2">
+            <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Year" tm1-subset="All Years" tm1-default-element="2016" ng-model="selections.year">
+            </tm1-ui-subnm>
+        </div>
+        <div class="col-md-1" style="text-align: right; margin-top: 5px;">
+            <label>Department:</label>
+        </div>
+        <div class="col-md-3">
+            <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Department" tm1-subset="Default" tm1-default-element="6" ng-model="selections.department">
+            </tm1-ui-subnm>
+        </div>
+        <div class="col-md-1" style="text-align: right; margin-top: 5px;">
+            <label>Region:</label>
+        </div>
+        <div class="col-md-3">
+            <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-subset="Default" tm1-default-element="3" ng-model="selections.region">
+            </tm1-ui-subnm>
+        </div>
+    </div>
+
+
+    <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Last Year,2016,Year,Local,3,6,Net Income,Amount"
+        tm1-hide-context-menu="true" tm1-data-decimal="1">
+    </tm1-ui-dbr-read-only>
+
+
+    <!-- View all Employees -->
+    <div class="panel panel-default">
+
+        <div class="panel-body table-scrollable">
+
+            <div style="margin-top: 15px;">
+
+                <!-- Reportview -->
+
+                <tm1-ui-rpt-view tm1-instance="dev" tm1-cube="General Ledger" ng-model="data">
+
+                    <!-- Config -->
+                    <tm1-ui-rpt-config>
+                        <tm1-ui-rpt-title tm1-dimension="Version" tm1-element="Last Year"></tm1-ui-rpt-title>
+                        <tm1-ui-rpt-title tm1-dimension="Year" tm1-element="{{selections.year}}"></tm1-ui-rpt-title>
+                        <tm1-ui-rpt-title tm1-dimension="Period" tm1-element="Year"></tm1-ui-rpt-title>
+                        <tm1-ui-rpt-title tm1-dimension="Currency" tm1-element="Local"></tm1-ui-rpt-title>
+                        <tm1-ui-rpt-title tm1-dimension="Region" tm1-element="{{selections.region}}"></tm1-ui-rpt-title>
+                        <tm1-ui-rpt-title tm1-dimension="Department" tm1-element="{{selections.department}}"></tm1-ui-rpt-title>
+                        <tm1-ui-rpt-row tm1-dimension="Account" tm1-mdx="{TM1SUBSETALL( [Account] )}"></tm1-ui-rpt-row>
+                        <tm1-ui-rpt-column tm1-dimension="General Ledger Measure" tm1-element="Amount"></tm1-ui-rpt-column>
+                    </tm1-ui-rpt-config>
+
+
+                    <!-- Template -->
+                    <tm1-ui-rpt-template>
+                        <table class="table table-condensed">
+
+                            <!-- Header -->
+                            <thead>
+                                <tr>
+                                    <th>Account</th>
+                                    <th>LY</th>
+                                    <th>Year</th>
+                                    <th>Jan</th>
+                                    <th>Feb</th>
+                                    <th>Mar</th>
+                                    <th>Apr</th>
+                                    <th>May</th>
+                                    <th>Jun</th>
+                                    <th>Jul</th>
+                                    <th>Aug</th>
+                                    <th>Sep</th>
+                                    <th>Oct</th>
+                                    <th>Nov</th>
+                                    <th>Dev</th>
+                                </tr>
+                            </thead>
+
+                            <!-- Body -->
+                            <tbody>
+                                <tr ng-repeat="rowdata in data.rows track by $index">
+
+                                    year: {{selections.year}}
+                                    <br> region: {{selections.region}}
+                                    <br> department: {{selections.department}}
+
+
+                                    <!-- Account -->
+                                    <td tm1-ui-rpt-row-element="rowdata" tm1-dimension="Account"></td>
+
+                                    <td>
+                                        {{rowdata.Account.key}}
+                                    </td>
+                                    <td>
+                                        {{selections.year}}
+                                    </td>
+                                    <td>
+                                        {{selections.region}}
+                                    </td>
+                                    <td>
+                                        {{selections.department}}
+                                    </td>
+                                    <td class="text-right">
+                                        <tm1-ui-rpt-row-cell tm1-row-data="rowdata" tm1-column-elements="Amount"></tm1-ui-rpt-row-cell>
+                                    </td>
+
+                                    <td class="text-right">
+                                        <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,{{selections.year}},Year,Local,{{selections.region}},{{selections.department}},1,Amount">
+                                        </tm1-ui-dbr-read-only>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </tm1-ui-rpt-template>
+                </tm1-ui-rpt-view>
+            </div>
+        </div>
+    </div>
+</div>

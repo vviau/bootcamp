@@ -54,5 +54,13 @@
       "page": "global-variables-v2"
     },
     "expanded": false
+  },
+  {
+    "label": "testaf",
+    "icon_class": "fa-file-text-o",
+    "data": {
+      "page": "testaf"
+    },
+    "expanded": false
   }
 ]

@@ -1,4 +1,8 @@
 {
+  "P \u0026 L": {
+    "url": "/pandl",
+    "templateUrl": "html/pandl.html"
+  },
   "sample-freeze": {
     "url": "/sample-freeze",
     "templateUrl": "html/sample-freeze.html"
@@ -30,5 +34,9 @@
   "global-variables-v2": {
     "url": "/global-variables-v2",
     "templateUrl": "html/global-variables-v2.html"
+  },
+  "testaf": {
+    "url": "/testaf",
+    "templateUrl": "html/testaf.html"
   }
 }
