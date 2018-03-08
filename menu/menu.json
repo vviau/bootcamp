@@ -1,5 +1,14 @@
 [
   {
+  "label": "testaf",
+    "icon_class": "fa-file-text-o",
+    "data": {
+      "page": "testaf"
+    },
+    "expanded": false
+
+},
+  {
     "label": "sample-freeze",
     "icon_class": "fa-snowflake-o",
     "data": {

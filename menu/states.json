@@ -1,4 +1,8 @@
 {
+  "P \u0026 L": {
+    "url": "/pandl",
+    "templateUrl": "html/pandl.html"
+  },
   "sample-freeze": {
     "url": "/sample-freeze",
     "templateUrl": "html/sample-freeze.html"
