@@ -135,7 +135,6 @@
 					panelClass: $scope.panelClass
 				};
 
-				$scope.directive = {instance: 'dev'};
 			});
 			
 

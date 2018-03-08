@@ -1,4 +1,4 @@
-app.controller('testafCtrl', ['$scope', '$rootScope', '$tm1Ui', function($scope, $rootScope, $tm1Ui) {
+app.controller('testafCtrl', ['$scope', '$rootScope', '$tm1Ui', '$timeout', function($scope, $rootScope, $tm1Ui, $timeout) {
 	 /*
     *     defaults.* are variables that are declared once and are changed in the page, otherwise known as constants in programming languages
     *     lists.* should be used to store any lists that are used with ng-repeat, i.e. tm1-ui-element-list
@@ -9,7 +9,16 @@ app.controller('testafCtrl', ['$scope', '$rootScope', '$tm1Ui', function($scope,
     */
     
     $scope.defaults = {};
-    $scope.selections = {};
+    $scope.selections = {
+    };
     $scope.lists = {};
     $scope.values = {};
+
+    $scope.setAccountElement = function(account){
+        $scope.selections.accountModal = '';
+        $timeout(function(){
+            $scope.selections.accountModal = account;
+        }, 10);
+        
+    }
 }]);

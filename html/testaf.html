@@ -134,7 +134,7 @@
           </thead>
           <tbody>
             <tr ng-repeat="rowData in data.rows track by $index" >
-              <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Account"></td>
+              <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Account" data-toggle="modal" data-target="#modalInfo" ng-click="selections.accountModal = ''; setAccountElement(rowData.Account.key)" style="cursor:pointer"></td>
             
               <td class="text-right">
                 <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="1"></tm1-ui-rpt-row-cell>             
@@ -155,5 +155,23 @@
       </tm1-ui-rpt-template>
     </tm1-ui-rpt-view> 
   </div>  
+
+
+  <!--=========================================-->
+  <!--        Modal for the save button      -->
+
+  <div id="modalInfo" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">More information</h4>
+          </div>
+          <div class="modal-body" ng-if="selections.accountModal">
+              <display-attributes  tm1-Instance="dev" tm1-Dimension="Account" tm1-Element="{{selections.accountModal}}" tm1-Alias="Description" panel-Class="panel-success"></display-attributes>
+          </div>
+        </div>
+      </div>
+    </div>
 
 </div>

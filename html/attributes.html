@@ -3,9 +3,19 @@
   <h1>
 		<span style="float: left; width: 50px; "><i ng-if="$root.isLoading"  class="fa fa-cog fa-spin" ></i>
 			<i ng-if="!$root.isLoading" class="fa fa-bars"></i></span> Show Attributes
-  </h1>
+	</h1>
+	
+	<tm1-ui-subnm
+		 tm1-instance="dev"
+		 tm1-dimension="Account"
+		 tm1-subset="Gross Margin"
+		 ng-model="selections.account"
+		 >
+	</tm1-ui-subnm>
 
-	<display-attributes tm1-Instance="dev" tm1-Dimension="Account" tm1-Element="1" tm1-Alias="Description" panel-Class="panel-success"></display-attributes>
+	{{selections.account}}
+
+	<display-attributes tm1-Instance="dev" tm1-Dimension="Account" tm1-Element="{{selections.account}}" tm1-Alias="Description" panel-Class="panel-success"></display-attributes>
 	
 	<display-attributes tm1-Instance="dev" tm1-Dimension="Region" tm1-Element="1" tm1-Alias="Description" panel-Class="panel-warning"></display-attributes>
     

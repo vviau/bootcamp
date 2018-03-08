@@ -1,0 +1,89 @@
+[
+  {
+    "label": "sample-freeze",
+    "icon_class": "fa-snowflake-o",
+    "data": {
+      "page": "sample-freeze"
+    },
+    "expanded": false
+  },
+  {
+    "label": "report-driven-by-excel",
+    "icon_class": "fa-file-excel-o",
+    "data": {
+      "page": "report-driven-by-excel"
+    },
+    "expanded": false
+  },
+  {
+    "label": "angularjs",
+    "icon_class": "fa-modx",
+    "data": {
+      "page": "angularjs"
+    },
+    "expanded": false
+  },
+  {
+    "label": "global-variables",
+    "icon_class": "fa-cube",
+    "data": {
+      "page": "global-variables"
+    },
+    "expanded": false
+  },
+  {
+    "label": "global-variables-v1",
+    "icon_class": "fa-cube",
+    "data": {
+      "page": "global-variables-page2"
+    },
+    "expanded": false
+  },
+  {
+    "label": "kpi",
+    "icon_class": "fa-ship",
+    "data": {
+      "page": "kpi"
+    },
+    "expanded": false
+  },
+  {
+    "label": "global-variables-v2",
+    "icon_class": "fa-cube",
+    "data": {
+      "page": "global-variables-v2"
+    },
+    "expanded": false
+  },
+  {
+<<<<<<< HEAD
+    "label": "attributes",
+    "icon_class": "fa-bars",
+    "data": {
+      "page": "attributes"
+    },
+    "expanded": false
+  },
+  {
+    "label": "app-todo",
+    "icon_class": "fa-file-text-o",
+    "data": {
+      "page": "app-todo"
+    },
+    "expanded": false
+  },
+  {
+    "label": "display-attributes",
+    "icon_class": "fa-file-text-o",
+    "data": {
+      "page": "display-attributes"
+=======
+    "label": "testaf",
+    "icon_class": "fa-file-text-o",
+    "data": {
+      "page": "testaf"
+>>>>>>> origin/master
+    },
+    "expanded": false
+  }
+]

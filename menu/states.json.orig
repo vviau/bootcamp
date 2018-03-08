@@ -1,8 +1,4 @@
 {
-  "testaf": {
-    "url": "/testaf",
-    "templateUrl": "html/testaf.html"
-},
   "P \u0026 L": {
     "url": "/pandl",
     "templateUrl": "html/pandl.html"
@@ -39,6 +35,7 @@
     "url": "/global-variables-v2",
     "templateUrl": "html/global-variables-v2.html"
   },
+<<<<<<< HEAD
   "attributes": {
     "url": "/attributes",
     "templateUrl": "html/attributes.html"
@@ -50,5 +47,10 @@
   "display-attributes": {
     "url": "/display-attributes",
     "templateUrl": "html/display-attributes.html"
+=======
+  "testaf": {
+    "url": "/testaf",
+    "templateUrl": "html/testaf.html"
+>>>>>>> origin/master
   }
 }
