@@ -120,7 +120,7 @@
                                     </td>
 
                                     <td class="text-right">
-                                        <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,{{selections.year}},Year,Local,{{selections.region}},{{selections.department}},1,Amount">
+                                        <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,{{selections.year}},Year,Local,{{selections.region}},{{selections.department}},{{rowdata.Account.key}},Amount">
                                         </tm1-ui-dbr-read-only>
                                     </td>
                                 </tr>
