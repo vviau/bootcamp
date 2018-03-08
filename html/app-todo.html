@@ -1,0 +1,18 @@
+ 
+	<div>
+			<h4>
+					My TODO List <i class="fa fa-plus tm1-ui-indent clickable" ng-click="addNote()"></i>
+			</h4>
+			
+			<ul class="list-group">
+				<li class="list-group-item" ng-repeat="item in lists.todos track by $index">
+					<span class="pull-right">
+						<i class="fa fa-fw clickable" ng-class="item.isDone ? 'fa-check-square-o text-success':'fa-square-o'" ng-click="item.isDone = !item.isDone;"></i>
+						<i class="fa fa-trash-o text-danger tm1-ui-indent clickable" ng-click="deleteNote($index, item.note)"></i>
+					</span>
+					<span ng-class="{'text-muted':item.isDone}">{{item.note}}</span>
+				</li>
+			</ul>
+		</div>
+		
+  

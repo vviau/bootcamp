@@ -1,0 +1,54 @@
+<div class="row">
+  	<div class="col-md-12">
+			<div class="panel {{defaults.panelClass}}">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<span>{{defaults.tm1Dimension}}:</span>
+						<span ng-if="defaults.tm1Alias"><tm1-ui-dbra 
+							tm1-instance="{{defaults.tm1Instance}}"
+							tm1-dimension="{{defaults.tm1Dimension}}"
+							tm1-element='{{defaults.tm1Element}}'
+							tm1-attribute="{{defaults.tm1Alias}}"
+							tm1-read-only="true"
+							ng-model="element.alias"
+							>
+					 </tm1-ui-dbra></span>
+					 <span ng-if="defaults.tm1Alias===''">{{defaults.tm1Dimension}}:{{defaults.tm1Element}}</span>
+				</div>
+				<div class="panel-body">
+					<!-- GET ALL ATTRIBUTES -->
+					<tm1-ui-element-list
+						 tm1-instance="dev"
+						 tm1-dimension="{{defaults.tm1DimensionAttribute}}"
+						 tm1-mdx="{TM1SORT( {TM1SUBSETALL([{{defaults.tm1DimensionAttribute}}])}, ASC)}"
+						 tm1-calculate-top-level="false"
+						 ng-model="lists.attributes"
+						 >
+					</tm1-ui-element-list>
+					<!-- DISPLAY ALL ATTRIBUTES -->
+					<table class="table table-striped">
+							<thead>
+								<tr>
+									<th class="text-center">Attribute</th>
+									<th class="text-center">Value</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="attribute in lists.attributes">
+									<td>{{attribute.key}}</td>
+									<td><tm1-ui-dbra 
+										tm1-instance="{{defaults.tm1Instance}}"
+										tm1-dimension="{{defaults.tm1Dimension}}"
+										tm1-element='{{defaults.tm1Element}}'
+										tm1-attribute="{{attribute.key}}"
+										tm1-read-only="true"
+										ng-model="element.attribute"
+										>
+								 </tm1-ui-dbra></td>
+								</tr>
+							</tbody>
+						</table>
+				</div>
+			</div>
+  	</div>
+	</div>

@@ -54,5 +54,29 @@
       "page": "global-variables-v2"
     },
     "expanded": false
+  },
+  {
+    "label": "attributes",
+    "icon_class": "fa-bars",
+    "data": {
+      "page": "attributes"
+    },
+    "expanded": false
+  },
+  {
+    "label": "app-todo",
+    "icon_class": "fa-file-text-o",
+    "data": {
+      "page": "app-todo"
+    },
+    "expanded": false
+  },
+  {
+    "label": "display-attributes",
+    "icon_class": "fa-file-text-o",
+    "data": {
+      "page": "display-attributes"
+    },
+    "expanded": false
   }
 ]
