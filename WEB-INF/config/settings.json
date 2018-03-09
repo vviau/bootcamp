@@ -2,7 +2,7 @@
   "rootMenu": {
     "label": "\u003ci class\u003d\u0027fa fa-sign-in\u0027 \u003e\u003c/i\u003e Home",
     "data": {
-      "page": "home"
+      "page": "testaf"
     },
     "expanded": true
   },
@@ -10,10 +10,10 @@
   "showAdminMenu": false,
   "showSystemMenu": true,
   "applicationName": "dev",
-  "theme": "default",
+  "theme": "simplex",
   "adminTheme": "default",
   "editorTheme": "monokai",
-  "showSideBar": true,
+  "showSideBar": false,
   "useCustomNavigation": false,
   "demo": false,
   "deleteCellsets": false,

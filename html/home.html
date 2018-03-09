@@ -1,9 +1,24 @@
 <div ng-controller="HomeCtrl">
-  <h1><i class="fa fa-home"></i> {{'HOME' | translate}}</h1>
-  
-  <hr />
+  <style>
+    body {
+      background: url('images/hackathon.jpg') no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+    nav {
+      display: none
+    }
+  </style>
+
+  <div class="session-expired text-danger">
+    <h1 style="font-size: 4em;">
+      <i class="fa fa-user-secret"></i>
+    </h1>
+    <h1 style="font-size: 3em;"><span translate="SESSIONEXPIRED"></span></h1>
+  </div>
+  <div class="col-md-4 col-md-offset-4" style="margin-top: 10%;">
+    <tm1-ui-login></tm1-ui-login>
+  </div>
 </div>
-   
- 
- 
-  
