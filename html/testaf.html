@@ -97,6 +97,7 @@
 
               <tr>
                 <th>Account</th>
+                <th></th>
                 <th>LY</th>
                 <th>Year</th>
                 <th>Jan</th>
@@ -116,7 +117,10 @@
             </thead>
             <tbody>
               <tr ng-repeat="rowData in data.rows track by $index">
-              <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Account" data-toggle="modal" data-target="#modalInfo" ng-click="selections.accountModal = ''; setAccountElement(rowData.Account.key)" style="cursor:pointer"></td>
+              <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Account">
+                
+              </td>
+              <td><i class="fa fa-info-circle" aria-hidden="true" data-toggle="modal" data-target="#modalInfo" ng-click="selections.accountModal = ''; setAccountElement(rowData.Account.key)" style="cursor:pointer"></i></td>
 
                 <td>{{rowData.Account}}</td>
                 <td class="text-right">
