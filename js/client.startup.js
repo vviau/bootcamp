@@ -125,7 +125,6 @@
 		},
 		link:function($scope, $elements, $attributes, directiveCtrl, transclude){
 			//START CONTROLLER
-			$timeout(function(){
 				$scope.defaults = {
 					tm1Instance: $scope.tm1Instance,
 					tm1Dimension: $scope.tm1Dimension,
@@ -134,8 +133,6 @@
 					tm1Alias: $scope.tm1Alias,
 					panelClass: $scope.panelClass
 				};
-
-			});
 			
 
 			
