@@ -7,7 +7,9 @@
 
     .tm1-ui-dbr input {
       text-align: right;
+      height: 20px;
     }
+
 
     .criteria {
       margin-top: 10px;
@@ -21,229 +23,216 @@
     .table-scrollable {
       overflow: auto;
       height: auto;
-      max-height: calc(100vh - 270px);
+      max-height: calc(100vh - 330px);
     }
   </style>
 
   <h1>
-    <span style="float: left; width: 50px; "><i ng-if="$root.isLoading"  class="fa fa-cog fa-spin" ></i><i ng-if="!$root.isLoading" class="fa fa-cube"></i></span>    P & L Data Entry Template
+    <span style="float: left; width: 50px; "><i ng-if="$root.isLoading"  class="fa fa-cog fa-spin" ></i><i ng-if="!$root.isLoading" class="fa fa-cube"></i></span>P&L
+    Data Entry Template
   </h1>
 
-  <h3 class="text-muted">Criteria</h3>
 
   <br>
 
 
 
-  <div class="row" style="margin-top: -20px;">
+  <div class="row" style="margin-top: 5px; margin-bottom: 15px;">
 
-    <div class="col-sm-4 pull-right" style="text-align: right;">
-      <span style="float: left;font-size: 12px; margin-right: 10px; color: #6F6F6F; font-size: 14px;" class="label">Suppress</span>
-      <select class="form-control" ng-init="page.suppressZero = 'none'" ng-model="page.suppressZero">
-        <option value="none">Do not Suppress Zeroes</option>
-        <option value="row">Suppress Zero on Rows</option>
-      </select>
-    </div>
 
-    <div class="col-sm-2 pull-right" style="text-align: right;">
-      <span style="float: left;font-size: 12px; margin-right: 10px;" class="label">
-        <span style="line-height: 25px; color: #6F6F6F; font-size: 14px;">Year</span>
-      <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Year" tm1-select-only="true" tm1-subset="Default" tm1-default-element="2012"
+    <div class="col-sm-2 pull-right" style="text-align: left;">
+      <span style="float: left;font-size: 12px; margin-right: 10px;color: #6F6F6F; font-size: 14px; line-height: 25px;" class="label">Year</span>
+      <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Year" tm1-subset="Default" tm1-show-hierarchy="false" tm1-default-element="2016"
         ng-model="page.titles['Year']"></tm1-ui-subnm>
     </div>
 
-    <div class="col-sm-2 pull-right" style="text-align: right;">
-      <span style="float: left;font-size: 12px; margin-right: 10px;" class="label">
-          <span style="line-height: 25px; color: #6F6F6F; font-size: 14px;">Region</span>
-      <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-select-only="true" tm1-default-element="1" ng-model="page.titles['Region']"></tm1-ui-subnm>
+    <div class="col-sm-3 pull-right" style="text-align: left;">
+      <span style="float: left;font-size: 12px; margin-right: 10px;color: #6F6F6F; font-size: 14px; line-height: 25px;" class="label">Region</span>
+      <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Region" tm1-attribute="Description" tm1-show-hierarchy="true" tm1-default-element="3"
+        ng-model="page.titles['Region']"></tm1-ui-subnm>
     </div>
 
-    <div class="col-sm-2 pull-right" style="text-align: right;">
-      <span style="float: left;font-size: 12px; margin-right: 10px;" class="label">
-            <span style="line-height: 25px; color: #6F6F6F; font-size: 14px;">Department</span>
-      <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Department" tm1-select-only="true" tm1-default-element="1" ng-model="page.titles['Department']"></tm1-ui-subnm>
+    <div class="col-sm-3 pull-right" style="text-align: left;">
+      <span style="float: left;font-size: 12px; margin-right: 10px;color: #6F6F6F; font-size: 14px; line-height: 25px;" class="label">Department</span>
+      <tm1-ui-subnm tm1-instance="dev" tm1-dimension="Department" tm1-show-hierarchy="true" tm1-mdx="{TM1SUBSETALL( [Department] )}"
+        tm1-default-element="6" tm1-attribute="Product Category" ng-model="page.titles['Department']"></tm1-ui-subnm>
+
     </div>
 
   </div>
 
 
-
-  <h3 class="text-muted">Template</h3>
 
 
   <div class="panel panel-default">
 
-    <tm1-ui-rpt-view tm1-instance="dev" tm1-cube="General Ledger" ng-model="data" tm1-suppress-zero="{{page.suppressZero}}">
-      <tm1-ui-rpt-config>
-        <tm1-ui-rpt-title tm1-dimension="Period" tm1-element="Year"></tm1-ui-rpt-title>
-        <tm1-ui-rpt-title tm1-dimension="Year" tm1-element="{{page.titles['Year']}}"></tm1-ui-rpt-title>
-        <tm1-ui-rpt-title tm1-dimension="General Ledger Measure" tm1-element="Amount"></tm1-ui-rpt-title>
-        <tm1-ui-rpt-title tm1-dimension="Currency" tm1-element="Local"></tm1-ui-rpt-title>
-        <tm1-ui-rpt-title tm1-dimension="Region" tm1-element="{{page.titles['Region']}}"></tm1-ui-rpt-title>
-        <tm1-ui-rpt-title tm1-dimension="Department" tm1-element="{{page.titles['Department']}}"></tm1-ui-rpt-title>
+    <div class="panel-heading">
 
-        <tm1-ui-rpt-row tm1-dimension="Account" tm1-mdx="{TM1SUBSETALL( [Account] )}" tm1-attribute="Description"></tm1-ui-rpt-row>
+      <div class="row">
+        <div class="col-sm-3 pull-right" style="text-align: left;">
 
-        <tm1-ui-rpt-column tm1-dimension="Version" tm1-mdx="{[Version].[Actual]}"></tm1-ui-rpt-column>
+          <select class="form-control pull-right" style="width: 200px;" ng-init="page.suppressZero = 'none'" ng-model="page.suppressZero">
+            <option value="none">Do not Suppress Zeroes</option>
+            <option value="row">Suppress Zero on Rows</option>
+          </select>
 
-      </tm1-ui-rpt-config>
-
-      <tm1-ui-rpt-template>
-<<<<<<< HEAD
-        <table id="af1" class="table table-condensed">
-          <thead>
-            
-              
-                <tr>              
-                    <th >Account</th>
-                  
-                    <th >Actual</th>
-                </tr>                
-            
-          </thead>
-          <tbody>
-            <tr ng-repeat="rowData in data.rows track by $index" >
-              <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Account" data-toggle="modal" data-target="#modalInfo" ng-click="selections.accountModal = ''; setAccountElement(rowData.Account.key)" style="cursor:pointer"></td>
-            
-              <td class="text-right">
-                <tm1-ui-rpt-row-cell tm1-row-data="rowData" tm1-column-elements="1"></tm1-ui-rpt-row-cell>             
-              </td>
-
-              <td class="text-right">
-                <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Last Year,2016,Year,Local,3,6,rowData.Account.key,Amount"
-                tm1-hide-context-menu="true" tm1-data-decimal="1">
-            </tm1-ui-dbr-read-only>
-        
-            </td>
-
-            
-            </tr>
-          </tbody>
-=======
-        <div class="panel-body table-scrollable">
-
-          <table id="af1" class="table table-condensed">
-            <thead>
-
-
-              <tr>
-                <th>Account</th>
-                <th>LY</th>
-                <th>Year</th>
-                <th>Jan</th>
-                <th>Feb</th>
-                <th>Mar</th>
-                <th>Apr</th>
-                <th>May</th>
-                <th>Jun</th>
-                <th>Jul</th>
-                <th>Aug</th>
-                <th>Sep</th>
-                <th>Oct</th>
-                <th>Nov</th>
-                <th>Dev</th>
-              </tr>
-
-            </thead>
-            <tbody>
-              <tr ng-repeat="rowData in data.rows track by $index">
-                <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Account"></td>
-
-                <td>{{rowData.Account}}</td>
-                <td class="text-right">
-                  <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,{{page.titles['Year']}},Year,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount">
-                  </tm1-ui-dbr-read-only>
-                </td>
-
-                <td class="text-right">
-                  <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,{{page.titles['Year']}},01,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount">
-                  </tm1-ui-dbr-read-only>
-                </td>
-
-                <td class="text-right">
-                  <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,{{page.titles['Year']}},02,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount">
-                  </tm1-ui-dbr-read-only>
-                </td>
-
-                <td class="text-right">
-                  <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,{{page.titles['Year']}},03,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount">
-                  </tm1-ui-dbr-read-only>
-                </td>
-
-                <td class="text-right">
-                  <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,{{page.titles['Year']}},04,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount">
-                  </tm1-ui-dbr-read-only>
-                </td>
-
-                <td class="text-right">
-                  <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,{{page.titles['Year']}},05,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount">
-                  </tm1-ui-dbr-read-only>
-                </td>
-
-                <td class="text-right">
-                  <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,{{page.titles['Year']}},06,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount">
-                  </tm1-ui-dbr-read-only>
-                </td>
-
-                <td class="text-right">
-                  <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,{{page.titles['Year']}},07,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount">
-                  </tm1-ui-dbr-read-only>
-                </td>
-
-                <td class="text-right">
-                  <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,{{page.titles['Year']}},08,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount">
-                  </tm1-ui-dbr-read-only>
-                </td>
-
-                <td class="text-right">
-                  <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,{{page.titles['Year']}},09,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount">
-                  </tm1-ui-dbr-read-only>
-                </td>
-
-                <td class="text-right">
-                  <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,{{page.titles['Year']}},10,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount">
-                  </tm1-ui-dbr-read-only>
-                </td>
-
-                <td class="text-right">
-                  <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,{{page.titles['Year']}},11,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount">
-                  </tm1-ui-dbr-read-only>
-                </td>
-
-                <td class="text-right">
-                  <tm1-ui-dbr-read-only tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Actual,{{page.titles['Year']}},12,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount">
-                  </tm1-ui-dbr-read-only>
-                </td>
-
-              </tr>
-            </tbody>
->>>>>>> 7abeec5c181bb4c1f448186b2c41c3c63b9750c3
-          </table>
-
-      </tm1-ui-rpt-template>
-    </tm1-ui-rpt-view>
-    </div>
-
-<<<<<<< HEAD
-
-  <!--=========================================-->
-  <!--        Modal for the save button      -->
-
-  <div id="modalInfo" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">More information</h4>
-          </div>
-          <div class="modal-body" ng-if="selections.accountModal">
-              <display-attributes  tm1-Instance="dev" tm1-Dimension="Account" tm1-Element="{{selections.accountModal}}" tm1-Alias="Description" panel-Class="panel-success"></display-attributes>
-          </div>
         </div>
       </div>
+
     </div>
 
-=======
+    <div class="panel-body">
+
+      <div class="table-scrollable" style="margin-top: 15px;">
+
+        <tm1-ui-rpt-view tm1-instance="dev" tm1-cube="General Ledger" ng-model="data" tm1-suppress-zero="{{page.suppressZero}}">
+          <tm1-ui-rpt-config>
+            <tm1-ui-rpt-title tm1-dimension="Period" tm1-element="Year"></tm1-ui-rpt-title>
+            <tm1-ui-rpt-title tm1-dimension="Year" tm1-element="{{page.titles['Year']}}"></tm1-ui-rpt-title>
+            <tm1-ui-rpt-title tm1-dimension="General Ledger Measure" tm1-element="Amount"></tm1-ui-rpt-title>
+            <tm1-ui-rpt-title tm1-dimension="Currency" tm1-element="Local"></tm1-ui-rpt-title>
+            <tm1-ui-rpt-title tm1-dimension="Region" tm1-element="{{page.titles['Region']}}"></tm1-ui-rpt-title>
+            <tm1-ui-rpt-title tm1-dimension="Department" tm1-element="{{page.titles['Department']}}"></tm1-ui-rpt-title>
+
+            <tm1-ui-rpt-row tm1-dimension="Account" tm1-mdx="{TM1DRILLDOWNMEMBER( { [Account].[Net Income] }, ALL, RECURSIVE )}" tm1-attribute="Description"></tm1-ui-rpt-row>
+
+            <tm1-ui-rpt-column tm1-dimension="Version" tm1-mdx="{[Version].[Budget]}"></tm1-ui-rpt-column>
+
+          </tm1-ui-rpt-config>
+
+          <tm1-ui-rpt-template>
+
+
+            <table class="table table-condensed">
+              <thead>
+
+
+                <tr>
+                  <th style="min-width: 300px;">Account</th>
+                <th></th>
+                  <th>LY</th>
+                  <th>Year</th>
+                  <th>Jan</th>
+                  <th>Feb</th>
+                  <th>Mar</th>
+                  <th>Apr</th>
+                  <th>May</th>
+                  <th>Jun</th>
+                  <th>Jul</th>
+                  <th>Aug</th>
+                  <th>Sep</th>
+                  <th>Oct</th>
+                  <th>Nov</th>
+                  <th>Dev</th>
+                </tr>
+
+              </thead>
+              <tbody>
+                <tr ng-repeat="rowData in data.rows track by $index">
+              <td tm1-ui-rpt-row-element="rowData" tm1-dimension="Account">
+                
+              </td>
+              <td><i class="fa fa-info-circle" aria-hidden="true" data-toggle="modal" data-target="#modalInfo" ng-click="selections.accountModal = ''; setAccountElement(rowData.Account.key)" style="cursor:pointer"></i></td>
+
+                  <td></td>
+                  <td class="text-right">
+                    <tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Budget,{{page.titles['Year']}},Year,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount" tm1-hide-context-menu="true">
+                    </tm1-ui-dbr>
+                  </td>
+
+                  <td class="text-right">
+                    <tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Budget,{{page.titles['Year']}},01,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount" tm1-hide-context-menu="true">
+                    </tm1-ui-dbr>
+                  </td>
+
+                  <td class="text-right">
+                    <tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Budget,{{page.titles['Year']}},02,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount" tm1-hide-context-menu="true">
+                    </tm1-ui-dbr>
+                  </td>
+
+                  <td class="text-right">
+                    <tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Budget,{{page.titles['Year']}},03,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount" tm1-hide-context-menu="true">
+                    </tm1-ui-dbr>
+                  </td>
+
+                  <td class="text-right">
+                    <tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Budget,{{page.titles['Year']}},04,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount" tm1-hide-context-menu="true">
+                    </tm1-ui-dbr>
+                  </td>
+
+                  <td class="text-right">
+                    <tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Budget,{{page.titles['Year']}},05,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount" tm1-hide-context-menu="true">
+                    </tm1-ui-dbr>
+                  </td>
+
+                  <td class="text-right">
+                    <tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Budget,{{page.titles['Year']}},06,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount" tm1-hide-context-menu="true">
+                    </tm1-ui-dbr>
+                  </td>
+
+                  <td class="text-right">
+                    <tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Budget,{{page.titles['Year']}},07,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount" tm1-hide-context-menu="true">
+                    </tm1-ui-dbr>
+                  </td>
+
+                  <td class="text-right">
+                    <tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Budget,{{page.titles['Year']}},08,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount" tm1-hide-context-menu="true">
+                    </tm1-ui-dbr>
+                  </td>
+
+                  <td class="text-right">
+                    <tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Budget,{{page.titles['Year']}},09,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount" tm1-hide-context-menu="true">
+                    </tm1-ui-dbr>
+                  </td>
+
+                  <td class="text-right">
+                    <tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Budget,{{page.titles['Year']}},10,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount" tm1-hide-context-menu="true">
+                    </tm1-ui-dbr>
+                  </td>
+
+                  <td class="text-right">
+                    <tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Budget,{{page.titles['Year']}},11,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount" tm1-hide-context-menu="true">
+                    </tm1-ui-dbr>
+                  </td>
+
+                  <td class="text-right">
+                    <tm1-ui-dbr tm1-instance="dev" tm1-cube="General Ledger" tm1-elements="Budget,{{page.titles['Year']}},12,Local,{{page.titles['Region']}},{{page.titles['Department']}},{{rowData.Account.key}},Amount" tm1-hide-context-menu="true">
+                    </tm1-ui-dbr>
+                  </td>
+
+                </tr>
+
+                <!--=========================================-->
+                <!--        Modal for the save button      -->
+
+                <div id="modalInfo" class="modal fade" role="dialog">
+                  <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">More information</h4>
+                      </div>
+                      <div class="modal-body" ng-if="selections.accountModal">
+              <display-attributes  tm1-instance="dev" tm1-dimension="Account" tm1-element="{{selections.accountModal}}" tm1-alias="Description" panel-class="panel-warning"></display-attributes>
+                          panel-Class="panel-success"></display-attributes>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+              </tbody>
+            </table>
+
+
+          </tm1-ui-rpt-template>
+        </tm1-ui-rpt-view>
+
+
+      </div>
+    </div>
   </div>
->>>>>>> 7abeec5c181bb4c1f448186b2c41c3c63b9750c3
+
+
+
 </div>
